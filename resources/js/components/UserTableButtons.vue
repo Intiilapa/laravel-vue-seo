@@ -1,5 +1,6 @@
 <template>
     <div>
+        <a v-bind:href="'/users/'+ this.user_id"><button type="button" class="btn btn-success btn-sm">Show</button></a>
         <button type="button" class="btn btn-primary btn-sm">Update</button>
         <button type="button" @click="doDelete" class="btn btn-danger btn-sm">Delete</button>
         <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
@@ -11,7 +12,10 @@
 import ConfirmDialogue from './ConfirmDialogue.vue'
 
 export default {
-    props: ['user_id'],
+    props: [
+        'user_id',
+        'show_url',
+    ],
     components: {ConfirmDialogue},
     methods: {
         async doDelete() {
@@ -23,9 +27,9 @@ export default {
             })
             // If you throw an error, the method will terminate here unless you surround it wil try/catch
             if (ok) {
-                alert('You have successfully delete this page.')
+                console.log('You have successfully delete this page.')
             } else {
-                alert('You chose not to delete this page. Doing nothing now.')
+                console.log('You chose not to delete this page. Doing nothing now.')
             }
         },
     },

@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
+import store from './store/index'
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -23,7 +25,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 // Vue.component('popup-modal', require('./components/PopupModal.vue').default);
 // Vue.component('confirm-dialogue', require('./components/ConfirmDialogue.vue').default);
 
-Vue.component('user-table-buttons', require('./components/UserTableButtons.vue').default);
+Vue.component('users', require('./components/Users.vue').default);
+// Vue.component('user-table-buttons', require('./components/UserTableButtons.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,4 +36,6 @@ Vue.component('user-table-buttons', require('./components/UserTableButtons.vue')
 
 const app = new Vue({
     el: '#app',
+    store
 });
+
