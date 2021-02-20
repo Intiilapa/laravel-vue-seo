@@ -20,16 +20,21 @@
                     </thead>
                     <tbody>
 
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr v-for="user in users" scope="row">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at }}</td>
                         <td>
-                            <user-table-buttons v-bind:user_id="1"></user-table-buttons>
+                            <a v-bind:href="'/users/'+ user.id">
+                                <button type="button" class="btn btn-success btn-sm">Show</button>
+                            </a>
+                            <button type="button" class="btn btn-primary btn-sm">Update</button>
+                            <button type="button" @click="deleteUser(user)" class="btn btn-danger btn-sm">Delete</button>
                         </td>
                     </tr>
                     </tbody>
+                    <loader></loader>
                 </table>
             </div>
         </div>
@@ -38,15 +43,25 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import UserTableButtons from './UserTableButtons.vue'
+import popup from "../popup";
+
+import Loader from './Loader.vue'
 
 export default {
     name: "Users",
-    components: {UserTableButtons},
+    components: {
+        Loader
+    },
     mounted() {
         this.$store.dispatch('fetchUsers')
     },
-    methods: {},
+    methods: {
+        deleteUser(user) {
+            popup.confirm(() => {
+                this.$store.dispatch('deleteUser', user)
+            })
+        }
+    },
     computed: {
         ...mapGetters([
             'users'

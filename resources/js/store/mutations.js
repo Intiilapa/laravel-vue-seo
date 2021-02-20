@@ -2,7 +2,7 @@ let mutations = {
     CREATE_USER(state, user) {
         state.users.unshift(user)
     },
-    FETCH_USER(state, users) {
+    FETCH_USERS(state, users) {
         return state.users = users
     },
     DELETE_USER(state, user) {

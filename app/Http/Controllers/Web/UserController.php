@@ -10,11 +10,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('users', ['users' => User::all()]);
+        // use Vue component
+        return view('users');
     }
 
     public function show(User $user)
     {
+        // SEO friendly
         return view('user')->with('user', $user);
     }
 }

@@ -10,6 +10,9 @@ window.Vue = require('vue').default;
 
 import store from './store/index'
 
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,12 +24,9 @@ import store from './store/index'
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-// Vue.component('popup-modal', require('./components/PopupModal.vue').default);
-// Vue.component('confirm-dialogue', require('./components/ConfirmDialogue.vue').default);
+Vue.use(VueToast);
 
 Vue.component('users', require('./components/Users.vue').default);
-// Vue.component('user-table-buttons', require('./components/UserTableButtons.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

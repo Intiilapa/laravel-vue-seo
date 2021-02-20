@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('users')->middleware('auth:api')->group(function() {
+Route::prefix('users')->middleware('auth:sanctum')->group(function() {
     Route::get('/', [UserController::class, 'index'])->middleware(['auth', 'role:super_admin,admin']);
+    Route::delete('/{id}', [UserController::class, 'destroy'])->middleware(['auth', 'role:super_admin']);
 });
