@@ -50,9 +50,9 @@ class User extends Authenticatable
     public static function roles(): array
     {
         return [
-            self::ROLE_SUPER_ADMIN,
-            self::ROLE_ADMIN,
-            self::ROLE_USER,
+            self::ROLE_SUPER_ADMIN => 'Super admin',
+            self::ROLE_ADMIN       => 'Admin',
+            self::ROLE_USER        => 'User',
         ];
     }
 }

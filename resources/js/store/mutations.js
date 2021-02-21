@@ -1,4 +1,7 @@
 let mutations = {
+    FETCH_ROLES(state, roles) {
+        return state.roles = roles
+    },
     CREATE_USER(state, user) {
         state.users.unshift(user)
     },

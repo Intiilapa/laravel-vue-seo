@@ -3,7 +3,8 @@
         <div class="row justify-content-center mb-1">
             <div class="col-md-8">
                 <h4 class="font-weight-bold float-left">Users: </h4>
-                <button type="button" class="btn btn-success btn-sm float-right">Add</button>
+                <button type="button" class="btn btn-success btn-sm float-right" @click="createUser()">Add</button>
+                <create-user-modal :modal-visible="modalVisible" @close="modalVisible = false"></create-user-modal>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -46,16 +47,26 @@ import {mapGetters} from 'vuex'
 import popup from "../popup";
 
 import Loader from './Loader.vue'
+import CreateUserModal from './user/Create.vue'
 
 export default {
     name: "Users",
     components: {
-        Loader
+        Loader,
+        CreateUserModal,
+    },
+    data() {
+        return {
+            modalVisible: false
+        }
     },
     mounted() {
         this.$store.dispatch('fetchUsers')
     },
     methods: {
+        createUser() {
+            this.modalVisible = true;
+        },
         deleteUser(user) {
             popup.confirm(() => {
                 this.$store.dispatch('deleteUser', user)

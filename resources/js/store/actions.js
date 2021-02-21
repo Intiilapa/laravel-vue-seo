@@ -4,6 +4,7 @@ import Vue from "vue";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.APP_URL;
+// axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
 
 // loader
 axios.interceptors.request.use(config => {
@@ -15,42 +16,57 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
     function (request) {
         loader.hide();
-        return request;
+        return Promise.resolve(request);
     },
     function (error) {
         loader.hide();
-        Vue.$toast.error('Something went wrong! (' + error.response.status + ')');
-        if (error.response.status === 403) {
-            return Promise.reject(error);
+        if (error.response.status !== 422) {
+            Vue.$toast.error('Something went wrong! (' + error.response.status + ')');
+            // if (error.response.status === 403) {
+            //     return Promise.reject(error);
+            // }
         }
+        return Promise.reject(error);
     });
 
 let actions = {
-    // // createPost({commit}, post) {
-    // //     axios.post('/api/posts', post)
-    // //         .then(res => {
-    // //             commit('CREATE_POST', res.data)
-    // //         }).catch(err => {
-    // //         console.log(err)
-    // //     })
-    // //
-    // // },
+    fetchRoles({commit}) {
+        axios.get('/api/data/roles')
+            .then((response) => {
+                commit('FETCH_ROLES', response.data)
+            }).catch((error) => {
+            console.log(error)
+        })
+    },
+    createUser({commit}, user) {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/users', user)
+                .then(response => {
+                    commit('CREATE_USER', response.data)
+                    Vue.$toast.open('Successful operation!');
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                });
+        })
+    },
     fetchUsers({commit}) {
         axios.get('/api/users')
-            .then(res => {
-                commit('FETCH_USERS', res.data)
-            }).catch(err => {
-            console.log(err)
+            .then((response) => {
+                commit('FETCH_USERS', response.data)
+            }).catch((error) => {
+            console.log(error)
         })
     },
     deleteUser({commit}, user) {
         axios.delete(`/api/users/${user.id}`)
-            .then(res => {
-                if (res.data === 'ok')
+            .then((response) => {
+                if (response.data === 'ok')
                     commit('DELETE_USER', user)
                 Vue.$toast.open('Successful operation!');
-            }).catch(err => {
-            console.log(err)
+            }).catch((error) => {
+            console.log(error)
         })
     }
 }

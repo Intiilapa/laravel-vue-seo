@@ -2,7 +2,7 @@ import VueConfirmDialog from "vue-confirm-dialog";
 window.Vue.use(VueConfirmDialog);
 
 let popup = {
-    confirm(callbackFunction, title = 'Are you sure?', message = '') {
+    confirm(callback, title = 'Are you sure?', message = '') {
         window.Vue.$confirm(
             {
                 // auth: false,
@@ -14,7 +14,7 @@ let popup = {
                 },
                 callback: confirm => {
                     if (confirm) {
-                        callbackFunction();
+                        callback();
                     }
                 }
             },
