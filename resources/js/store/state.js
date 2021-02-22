@@ -1,4 +1,5 @@
 let state = {
+    user: null,
     roles: [],
     users: [],
 }

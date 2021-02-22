@@ -16,10 +16,6 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Loader -->
-{{--    <link href="https://unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />--}}
-{{--    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>--}}
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -90,7 +86,7 @@
         </nav>
 
         <main class="py-4">
-{{--            <div id="loading"></div>--}}
+            <div id="loading"></div>
             @yield('content')
         </main>
     </div>

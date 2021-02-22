@@ -4,7 +4,7 @@ import Vue from "vue";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.APP_URL;
-// axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
 // loader
 axios.interceptors.request.use(config => {
@@ -30,6 +30,20 @@ axios.interceptors.response.use(
     });
 
 let actions = {
+    login({commit}, credentials) {
+        // axios.defaults.withCredentials = false;
+        return new Promise((resolve, reject) => {
+            axios.post('/api/login', credentials)
+                .then(response => {
+                    commit('SET_USER_DATA', response.data)
+                    Vue.$toast.open('Successful operation!')
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
+                });
+        })
+    },
     fetchRoles({commit}) {
         axios.get('/api/data/roles')
             .then((response) => {
@@ -43,7 +57,7 @@ let actions = {
             axios.post('/api/users', user)
                 .then(response => {
                     commit('CREATE_USER', response.data)
-                    Vue.$toast.open('Successful operation!');
+                    Vue.$toast.open('Successful operation!')
                     resolve(response)
                 })
                 .catch(error => {

@@ -26,6 +26,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 Vue.use(VueToast);
 
+Vue.component('login', require('./components/auth/Login.vue').default);
 Vue.component('users', require('./components/Users.vue').default);
 
 /**
@@ -36,6 +37,13 @@ Vue.component('users', require('./components/Users.vue').default);
 
 const app = new Vue({
     el: '#app',
-    store
+    store,
+    created() {
+        const userInfo = localStorage.getItem('user')
+        if (userInfo) {
+            const userData = JSON.parse(userInfo)
+            this.$store.commit('SET_USER_DATA', userData)
+        }
+    },
 });
 

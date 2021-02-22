@@ -14,33 +14,33 @@
                         <div class="modal-body p-3">
                             <div class="form-group">
                                 <label>Name:</label>
-                                <input type="text" placeholder="Name" v-model="user.name" class="form-control">
-                                <div class="alert alert-danger" v-if="errors && errors.name">
-                                    {{ errors.name[0] }}
-                                </div>
+                                <input type="text" placeholder="Name" v-model="user.name" class="form-control" v-bind:class="errors && errors.name ? 'is-invalid' : ''">
+                                <span class="invalid-feedback" role="alert" v-if="errors && errors.name">
+                                    <strong>{{ errors.name[0] }}</strong>
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label>E-mail:</label>
-                                <input type="email" placeholder="E-mail" v-model="user.email" class="form-control">
-                                <div class="alert alert-danger" v-if="errors && errors.email">
-                                    {{ errors.email[0] }}
-                                </div>
+                                <input type="email" placeholder="E-mail" v-model="user.email" class="form-control" v-bind:class="errors && errors.email ? 'is-invalid' : ''">
+                                <span class="invalid-feedback" role="alert" v-if="errors && errors.email">
+                                    <strong>{{ errors.email[0] }}</strong>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label>Password:</label>
+                                <input type="password" placeholder="Password" v-model="user.password" class="form-control" v-bind:class="errors && errors.password ? 'is-invalid' : ''">
+                                <span class="invalid-feedback" role="alert" v-if="errors && errors.password">
+                                    <strong>{{ errors.password[0] }}</strong>
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label>Choose a role:</label>
-                                <input type="password" placeholder="Password" v-model="user.password" class="form-control">
-                                <div class="alert alert-danger" v-if="errors && errors.password">
-                                    {{ errors.password[0] }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Choose a role:</label>
-                                <select id="role" v-model="user.role">
+                                <select id="role" v-model="user.role" v-bind:class="errors && errors.role ? 'is-invalid' : ''">
                                     <option v-for="(role, key) in roles" :value="key" :selected="role === user.role">{{ role }}</option>
                                 </select>
-                                <div class="alert alert-danger" v-if="errors && errors.role">
-                                    {{ errors.role[0] }}
-                                </div>
+                                <span class="invalid-feedback" role="alert" v-if="errors && errors.role">
+                                    <strong>{{ errors.role[0] }}</strong>
+                                </span>
                             </div>
                             <button :disabled="!isValid" class="button-top btn btn-bold btn-block btn-primary" @click.prevent="createUser(user)">
                                 Save
@@ -80,16 +80,17 @@ export default {
     methods: {
         createUser(user) {
             this.$store.dispatch('createUser', user).then(
-                (response) => {
-                    this.$parent.modalVisible = false;
-                    this.user.name = '';
-                    this.user.email = '';
-                    this.user.password = '';
-                    this.user.role = '';
-                }).catch((error) => {
-                if (error.response.status === 422) {
-                    this.errors = error.response.data.errors
-                }
+                    (response) => {
+                        this.$parent.modalVisible = false;
+                        this.user.name = '';
+                        this.user.email = '';
+                        this.user.password = '';
+                        this.user.role = '';
+                }).catch(
+                    (error) => {
+                        if (error.response.status === 422) {
+                            this.errors = error.response.data.errors
+                        }
             });
 
         }
