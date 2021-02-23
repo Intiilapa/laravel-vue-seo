@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Choose a role:</label>
-                                <select id="role" v-model="user.role" v-bind:class="errors && errors.role ? 'is-invalid' : ''">
+                                <select class="form-control" id="role" v-model="user.role" v-bind:class="errors && errors.role ? 'is-invalid' : ''">
                                     <option v-for="(role, key) in roles" :value="key" :selected="role === user.role">{{ role }}</option>
                                 </select>
 

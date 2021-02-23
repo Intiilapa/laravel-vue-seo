@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="modal" class="modal fade show" v-show="updateModalVisible" aria-labelledby="myModalLabel">
+        <div id="modal" class="modal fade show" v-show="visible" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <form @submit="updateUser(user)">
@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Choose a role:</label>
-                                <select id="role" v-model="user.role"
+                                <select id="role" class="form-control" v-model="user.role"
                                         v-bind:class="errors && errors.role ? 'is-invalid' : ''">
                                     <option v-for="(role, key) in roles" :value="key" :selected="role === user.role">
                                         {{ role }}
@@ -57,35 +57,44 @@
 <script>
 
 import {mapGetters} from "vuex";
-import Vue from "vue";
 
 export default {
     name: "UserUpdateModal",
     props: [
-        "userIdProp",
-        "updateModalVisible"
+        "userId",
+        "showUpdateModal",
     ],
     data() {
         return {
-            newMessage: "",
-            errors: {},
-            user: {}
+            visible: false,
+            user: {},
+            errors: {}
         }
     },
+    created() {
+
+    },
     mounted() {
-        this.$store.dispatch('fetchRoles')
-        this.$store.dispatch('fetchUser', this.userIdProp).then((response) => {
-            this.user = response.data
-        }).catch((error) => {
-            Vue.$toast.error('Something went wrong! (' + error.response.status + ')');
-        });
+
     },
     methods: {
+        initFormData() {
+            this.$store.dispatch('fetchUser', this.userId).then((response) => {
+                this.$store.dispatch('fetchRoles')
+
+                this.user = response.data
+                this.visible = true
+            }).catch((error) => {
+                this.$parent.showUpdateModal = false;
+                window.Vue.$toast.error('Something went wrong! (' + error.response.status + ')');
+            });
+        },
         updateUser(user) {
+            this.errors = {}
             this.$store.dispatch('updateUser', user).then(
                 (response) => {
-                    this.$parent.updateModalVisible = false;
-                    this.$parent.updatedUserId = false;
+                    this.$parent.showUpdateModal = false;
+                    this.$parent.userId = false;
                 }).catch(
                 (error) => {
                     if (error.response.status === 422) {
@@ -93,7 +102,7 @@ export default {
                     }
                 });
 
-        }
+        },
     },
     computed: {
         isValid() {
@@ -102,6 +111,14 @@ export default {
         ...mapGetters([
             'roles'
         ])
+    },
+    watch: {
+        showUpdateModal: function (newVal, oldVal) {
+            this.visible = false
+            if (oldVal !== newVal && newVal) {
+                this.initFormData()
+            }
+        },
     }
 }
 </script>

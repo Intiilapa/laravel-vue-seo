@@ -38,7 +38,6 @@ let userActions = {
     },
     updateUser({commit}, user) {
         return new Promise((resolve, reject) => {
-            console.log(user)
             axios.put(`/api/users/${user.id}`, user)
                 .then(response => {
                     commit('FETCH_USER', response.data)
