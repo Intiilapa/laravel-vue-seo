@@ -86,7 +86,7 @@
         </nav>
 
         <main class="py-4">
-            <div id="loading"></div>
+            <loader></loader>
             @yield('content')
         </main>
     </div>

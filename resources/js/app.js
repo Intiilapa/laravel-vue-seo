@@ -26,6 +26,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 Vue.use(VueToast);
 
+Vue.component('loader', require('./components/Loader').default);
 Vue.component('login', require('./components/auth/Login.vue').default);
 Vue.component('users', require('./components/Users.vue').default);
 

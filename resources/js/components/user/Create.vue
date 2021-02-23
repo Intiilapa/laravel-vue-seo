@@ -38,6 +38,7 @@
                                 <select id="role" v-model="user.role" v-bind:class="errors && errors.role ? 'is-invalid' : ''">
                                     <option v-for="(role, key) in roles" :value="key" :selected="role === user.role">{{ role }}</option>
                                 </select>
+
                                 <span class="invalid-feedback" role="alert" v-if="errors && errors.role">
                                     <strong>{{ errors.role[0] }}</strong>
                                 </span>
